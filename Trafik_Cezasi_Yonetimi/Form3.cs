@@ -12,9 +12,17 @@ namespace Trafik_Cezasi_Yonetimi
 {
     public partial class Form3 : Form
     {
-        public Form3()
+        string sürücütc;
+        public Form3(string sürücütc)
         {
             InitializeComponent();
+
+            this.sürücütc = sürücütc;
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

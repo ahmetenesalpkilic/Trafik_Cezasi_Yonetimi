@@ -50,6 +50,7 @@
             Controls.Add(label1);
             Name = "Form3";
             Text = "Sürücü Paneli";
+            Load += Form3_Load;
             ResumeLayout(false);
             PerformLayout();
         }
