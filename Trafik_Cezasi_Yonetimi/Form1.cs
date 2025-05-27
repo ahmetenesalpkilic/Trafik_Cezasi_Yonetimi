@@ -1,6 +1,7 @@
 namespace Trafik_Cezasi_Yonetimi
 {
     //Giriþ Formu
+    //Bu formda Sürücü ve Polis giriþi için butonlar bulunmakta, hangi butona týkladýgýnda göre bilgiler isteniyor!
     public partial class Form1 : Form
     {
         bool polis = false;
