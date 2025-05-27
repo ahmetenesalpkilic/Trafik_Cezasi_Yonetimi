@@ -18,12 +18,12 @@ namespace Trafik_Cezasi_Yonetimi
         public string masaUstu = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //masaüstüyolu
         string klasorad = "Trafik_Ceza_Yönetimi";
         string raporklasor = "Rapor_Klasor";
-        
+
         public Form2()
         {
             InitializeComponent();
             comboBox1.Items.Add("Park"); comboBox1.Items.Add("Hız"); comboBox1.Items.Add("Kırmızı");
-            TCYklasorOlustur(); //TrafikCezaYonetımı klasoru olustur
+            
         }
 
 
@@ -40,21 +40,7 @@ namespace Trafik_Cezasi_Yonetimi
         }
 
 
-        private void TCYklasorOlustur()
-        {
-            string klasorYol = Path.Combine(masaUstu, klasorad);// Trafik Ceza Yonetımı klasörünü yoksa olusturur
-
-            if (!Directory.Exists(klasorYol))
-            { //eger klasör yoksa olustur
-                Directory.CreateDirectory(klasorYol);
-            }
-
-            string klasorRapor = Path.Combine(klasorYol, raporklasor); //Rapor adlı klasör TCY klasöründe yoksa olustur
-            if (!Directory.Exists(klasorRapor))
-            { //eger klasör yoksa olustur
-                Directory.CreateDirectory(klasorRapor);
-            }
-        }
+       
 
         private void kisiBelgeOlustur(string Tc, Ceza ceza) //Kişiye belge olusturur
         {
@@ -66,7 +52,7 @@ namespace Trafik_Cezasi_Yonetimi
             { // metin belgesi yoksa olusturur,varsa üstüne yazar
 
                 sw.WriteLine(ceza.CezaTuru + ":" + ceza.SurucuTC + ":" + ceza.Tarih.ToString("dd.MM.yyyy") + ":" +
-                    ceza.odendiMi+":"+ ceza.CezaTutarı);
+                    ceza.odendiMi + ":" + ceza.CezaTutarı);
             }
             //kişinin MetinBelgesine ceza bilgileri yazıldı
 
@@ -79,7 +65,7 @@ namespace Trafik_Cezasi_Yonetimi
             public virtual int CezaTutarı { get; set; }
             public virtual string CezaTuru { get; set; }
 
-            public  bool odendiMi = false;
+            public bool odendiMi = false;
 
             public Ceza(string tc, DateTime tarih)
             {
@@ -164,15 +150,15 @@ namespace Trafik_Cezasi_Yonetimi
 
         private void button2_Click(object sender, EventArgs e)// Raporla Butonu 
         {
-            string klasorYol = Path.Combine(masaUstu, klasorad,textBox1.Text+".txt");// TCY klasöründen kişinin bilgilerini çekiceğiz
+            string klasorYol = Path.Combine(masaUstu, klasorad, textBox1.Text + ".txt");// TCY klasöründen kişinin bilgilerini çekiceğiz
 
-            string raporKyol = Path.Combine(masaUstu,klasorad,raporklasor, textBox1.Text +"rapor"+".txt");
+            string raporKyol = Path.Combine(masaUstu, klasorad, raporklasor, textBox1.Text + "rapor" + ".txt");
             //Rapor klasörüne kişinin adına bir metin belgesi oluşturuyoruz
 
-           
+
             StreamWriter sw = new StreamWriter(raporKyol);
 
-           
+
             if (!File.Exists(klasorYol))
             {
                 sw.WriteLine("Sürücü Daha Önce Ceza Almamış!");
@@ -186,23 +172,23 @@ namespace Trafik_Cezasi_Yonetimi
             string temp;
             while ((temp = sr.ReadLine()) != null)
             {
-                string[]dizi =temp.Split(':');
+                string[] dizi = temp.Split(':');
                 if (dizi[3] == "False") { dizi[3] = "Ödenmedi"; } else { dizi[3] = "Ödendi"; }
                 //Cezanın ödenme bool değişkenine string atadık
 
                 sw.WriteLine("--------------------------------------------------------");
-                sw.WriteLine("Ceza türü :" + dizi[0]+"\n Sürücü TC no :" + dizi[1]+ "\nCeza tarihi :" + dizi[2]
-                    + "\nCeza Ödeme Durumu :" + dizi[3]+ "\nCezanın tutarı :" + dizi[4]);
+                sw.WriteLine("Ceza türü :" + dizi[0] + "\nSürücü TC no :" + dizi[1] + "\nCeza tarihi :" + dizi[2]
+                    + "\nCeza Ödeme Durumu :" + dizi[3] + "\nCezanın tutarı :" + dizi[4]);
 
 
             }
             sw.WriteLine("--------------------------------------------------------");
             MessageBox.Show("Rapor başarılı şekilde oluşturuldu", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             sw.Close();
-            sr.Close(); 
-            
+            sr.Close();
+
             //sadece tc gırdııgnde eger yoksa rapor bulunamadı demesı gerekırken uygulama cokuyo onu duzlet
-            
+
         }
     }
 }

@@ -1,21 +1,40 @@
-namespace Trafik_Cezasi_Yonetimi
+ï»¿namespace Trafik_Cezasi_Yonetimi
 {
-    //Giriþ Formu
-    //Bu formda Sürücü ve Polis giriþi için butonlar bulunmakta, hangi butona týkladýgýnda göre bilgiler isteniyor!
+    //GiriÃ¾ Formu
+    //Bu formda SÃ¼rÃ¼cÃ¼ ve Polis giriÃ¾i iÃ§in butonlar bulunmakta, hangi butona tÃ½kladÃ½gÃ½nda gÃ¶re bilgiler isteniyor!
     public partial class Form1 : Form
     {
         bool polis = false;
-        bool sürücü = false;
-        string polisKullanýcýadý = "admin";
+        bool sÃ¼rÃ¼cÃ¼ = false;
+        string polisKullanÃ½cÃ½adÃ½ = "admin";
         string polisSifre = "1234";
+        public string masaUstu = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //masaÃ¼stÃ¼yolu
+        string klasorad = "Trafik_Ceza_YÃ¶netimi";
+        string raporklasor = "Rapor_Klasor";
 
         public Form1()
         {
             InitializeComponent();
             label4.Visible = false; label3.Visible = false; label5.Visible = false;
             textBox1.Visible = false; textBox2.Visible = false; button3.Visible = false;
+            TCYklasorOlustur(); //TrafikCezaYonetÄ±mÄ± klasoru olustur
         }
 
+        private void TCYklasorOlustur()
+        {
+            string klasorYol = Path.Combine(masaUstu, klasorad);// Trafik Ceza YonetÄ±mÄ± klasÃ¶rÃ¼nÃ¼ yoksa olusturur
+
+            if (!Directory.Exists(klasorYol))
+            { //eger klasÃ¶r yoksa olustur
+                Directory.CreateDirectory(klasorYol);
+            }
+
+            string klasorRapor = Path.Combine(klasorYol, raporklasor); //Rapor adlÄ± klasÃ¶r TCY klasÃ¶rÃ¼nde yoksa olustur
+            if (!Directory.Exists(klasorRapor))
+            { //eger klasÃ¶r yoksa olustur
+                Directory.CreateDirectory(klasorRapor);
+            }
+        }
 
 
         private void button1_Click(object sender, EventArgs e)// Polis Butonu
@@ -23,31 +42,31 @@ namespace Trafik_Cezasi_Yonetimi
             button1.Visible = false; button2.Visible = false;
             polis = true;
             label4.Visible = true; label3.Visible = true;
-            textBox1.Visible = true; textBox2.Visible = true; button3.Visible = true; 
-            label5.Visible = true; //butonlarý aktif ediyorum
+            textBox1.Visible = true; textBox2.Visible = true; button3.Visible = true;
+            label5.Visible = true; //butonlarÃ½ aktif ediyorum
 
-            textBox2.UseSystemPasswordChar = true; //textboxa þifre gizliliði(*****)
+            textBox2.UseSystemPasswordChar = true; //textboxa Ã¾ifre gizliliÃ°i(*****)
 
 
 
         }
 
 
-        private void button2_Click(object sender, EventArgs e)// Sürücü butonu
+        private void button2_Click(object sender, EventArgs e)// SÃ¼rÃ¼cÃ¼ butonu
         {
-            sürücü = true;
+            sÃ¼rÃ¼cÃ¼ = true;
             button1.Visible = false; button2.Visible = false;
             textBox2.Visible = true; button3.Visible = true; label5.Visible = true;
-            label4.Visible = true; 
-            label5.Text = "Sürücü Giriþi için gerekli bilgileri giriniz!";
+            label4.Visible = true;
+            label5.Text = "SÃ¼rÃ¼cÃ¼ GiriÃ¾i iÃ§in gerekli bilgileri giriniz!";
             label4.Text = "TC kimlik no:";
         }
 
         private void button3_Click(object sender, EventArgs e)//Onayla butonu
         {
-            if (polis) // polis butonuna týklandýysa eger
+            if (polis) // polis butonuna tÃ½klandÃ½ysa eger
             {
-                if (textBox1.Text == polisKullanýcýadý && textBox2.Text == polisSifre) //eger polis kullanýcý sifre dogruysa ilerle
+                if (textBox1.Text == polisKullanÃ½cÃ½adÃ½ && textBox2.Text == polisSifre) //eger polis kullanÃ½cÃ½ sifre dogruysa ilerle
                 {
                     Form2 f2 = new Form2();
                     this.Hide();
@@ -57,23 +76,23 @@ namespace Trafik_Cezasi_Yonetimi
                 }
                 else
                 {
-                    MessageBox.Show("Kullanýcý adý yada þifre yanlýþ", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("KullanÃ½cÃ½ adÃ½ yada Ã¾ifre yanlÃ½Ã¾", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
-         
 
-             if (sürücü) // sürücü butonuna týklandýysa eger
-                {
-                    Form3 f3=new Form3(textBox2.Text.Trim());
-                    this.Hide();
-                    f3.ShowDialog();
-                    this.Close()   ;
-                    }
+
+            if (sÃ¼rÃ¼cÃ¼) // sÃ¼rÃ¼cÃ¼ butonuna tÃ½klandÃ½ysa eger
+            {
+                Form3 f3 = new Form3(textBox2.Text.Trim());
+                this.Hide();
+                f3.ShowDialog();
+                this.Close();
+            }
 
 
         }
 
-        
+
     }
 }
