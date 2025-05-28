@@ -6,12 +6,13 @@
     {
         bool polis = false;
         bool sürücü = false;
-        string polisKullanýcýadý = "admin";
+        string polisKullaniciadi = "admin";
         string polisSifre = "1234";
         public string masaUstu = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //masaüstüyolu
         string klasorad = "Trafik_Ceza_Yönetimi";
         string raporklasor = "Rapor_Klasor";
-
+        string klasorYol;
+        string klasorRapor;
         public Form1()
         {
             InitializeComponent();
@@ -22,14 +23,14 @@
 
         private void TCYklasorOlustur()
         {
-            string klasorYol = Path.Combine(masaUstu, klasorad);// Trafik Ceza Yonetımı klasörünü yoksa olusturur
+            klasorYol = Path.Combine(masaUstu, klasorad);// Trafik Ceza Yonetımı klasörünü yoksa olusturur
 
             if (!Directory.Exists(klasorYol))
             { //eger klasör yoksa olustur
                 Directory.CreateDirectory(klasorYol);
             }
 
-            string klasorRapor = Path.Combine(klasorYol, raporklasor); //Rapor adlı klasör TCY klasöründe yoksa olustur
+             klasorRapor = Path.Combine(klasorYol, raporklasor); //Rapor adlı klasör TCY klasöründe yoksa olustur
             if (!Directory.Exists(klasorRapor))
             { //eger klasör yoksa olustur
                 Directory.CreateDirectory(klasorRapor);
@@ -64,9 +65,9 @@
 
         private void button3_Click(object sender, EventArgs e)//Onayla butonu
         {
-            if (polis) // polis butonuna týklandýysa eger
+            if (polis) // polis butonuna tiklandiysa eger
             {
-                if (textBox1.Text == polisKullanýcýadý && textBox2.Text == polisSifre) //eger polis kullanýcý sifre dogruysa ilerle
+                if (textBox1.Text == polisKullaniciadi && textBox2.Text == polisSifre) //eger polis kullanici sifre dogruysa ilerle
                 {
                     Form2 f2 = new Form2();
                     this.Hide();
@@ -76,14 +77,23 @@
                 }
                 else
                 {
-                    MessageBox.Show("Kullanýcý adý yada þifre yanlýþ", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Kullanici adi yada Sifre yanlis", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
 
 
-            if (sürücü) // sürücü butonuna týklandýysa eger
+            if (sürücü) // sürücü butonuna tiklandiysa eger
             {
+                string surucuDyol = Path.Combine(klasorYol, textBox2.Text + ".txt");
+                if (!File.Exists(surucuDyol))//girdiği tc'ye ait metin belgesi yoksa message box donder
+                {
+                    MessageBox.Show("Girdiğiniz Tc Kimlik no'ya ait bir ceza gecmisi bulunamadi", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                    return;
+                }
+                
+
                 Form3 f3 = new Form3(textBox2.Text.Trim());
                 this.Hide();
                 f3.ShowDialog();
