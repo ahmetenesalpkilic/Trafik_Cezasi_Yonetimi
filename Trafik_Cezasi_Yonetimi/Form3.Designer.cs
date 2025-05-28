@@ -60,6 +60,7 @@
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(103, 208);
             comboBox1.Name = "comboBox1";
@@ -81,26 +82,27 @@
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(583, 407);
+            listBox1.Location = new Point(583, 416);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(326, 144);
             listBox1.TabIndex = 12;
             // 
             // button2
             // 
-            button2.Location = new Point(220, 460);
+            button2.Location = new Point(220, 464);
             button2.Name = "button2";
             button2.Size = new Size(177, 29);
             button2.TabIndex = 13;
             button2.Text = "Görüntüle";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label2.ForeColor = SystemColors.ControlDarkDark;
-            label2.Location = new Point(331, 351);
+            label2.Location = new Point(331, 346);
             label2.Name = "label2";
             label2.Size = new Size(324, 46);
             label2.TabIndex = 14;

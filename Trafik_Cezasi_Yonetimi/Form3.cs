@@ -20,8 +20,10 @@ namespace Trafik_Cezasi_Yonetimi
         public List<IOdenecek> odenecekLer;
         public string masaUstuYol = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         public string dosyaYol;
-        public int odenecekToplam = 0;
+
         public string secilenOdeme;
+        public int ödenenBorc = 0;
+        public int ödenecekBorc = 0;
         public Form3(string sürücütc)
         {
             InitializeComponent();
@@ -30,7 +32,7 @@ namespace Trafik_Cezasi_Yonetimi
             cezaInfos = new List<string>();
             odenecekLer = new List<IOdenecek>();
 
-            dosyaYol = Path.Combine(masaUstuYol, "Trafik_Ceza_Yönetimi", sürücütc+".txt"); //TCY klasöründe kişinin metin belgesine ulaşıyoruz
+            dosyaYol = Path.Combine(masaUstuYol, "Trafik_Ceza_Yönetimi", sürücütc + ".txt"); //TCY klasöründe kişinin metin belgesine ulaşıyoruz
             CezaListele();
         }
 
@@ -41,38 +43,33 @@ namespace Trafik_Cezasi_Yonetimi
 
 
 
-            private void CezaListele()
-            { //Ceza Bilgilerini listeye atıcagız!
+        private void CezaListele()
+        { //Ceza Bilgilerini listeye atıcagız!
 
-                StreamReader sr = new StreamReader(dosyaYol);
+            StreamReader sr = new StreamReader(dosyaYol);
 
-                string s;
-                int j = 0; //Ceza No'ları belirliyor
-                while ((s = sr.ReadLine()) != null) //metin belgesi null olana kadar
-                {
-                    string[] temp = s.Trim().Split(':'); // iki nokta(:) gorunce ayır dızıye ata
-                    IOdenecek odenecek = new IOdenecek();
+            string s;
+            int j = 0; //Ceza No'ları belirliyor
+            while ((s = sr.ReadLine()) != null) //metin belgesi null olana kadar
+            {
+                string[] temp = s.Trim().Split(':'); // iki nokta(:) gorunce ayır dızıye ata
+                IOdenecek odenecek = new IOdenecek();
 
-                    odenecek.CezaNo = j;
-                    odenecek.cezaTuru = temp[0]; odenecek.surucuTc = temp[1]; odenecek.tarih = temp[2];
-                    odenecek.odendiMi = Convert.ToBoolean(temp[3]); odenecek.cezaTutar = Convert.ToInt32(temp[4]);
-                    //odenecek adında bir nesne oluşturup içine atıyoruz
+                odenecek.CezaNo = j;
+                odenecek.cezaTuru = temp[0]; odenecek.surucuTc = temp[1]; odenecek.tarih = temp[2];
+                odenecek.odendiMi = Convert.ToBoolean(temp[3]); odenecek.cezaTutar = Convert.ToInt32(temp[4]);
+               
+                comboBox1.Items.Add(j + "-) Ceza adı: " + temp[0] + " Tarihi: " + temp[2] + " Borç: " + temp[4]);
+                //ComboBox'a ekledik cezayı
 
-                    comboBox1.Items.Add(j + "-) Ceza adı: " + temp[0] + " Tarihi: " + temp[2] + " Borç: " + temp[4]);
-                    //ComboBox'a ekledik cezayı
-
-
-
-                    odenecekToplam += Convert.ToInt32(temp[4]);//OdenecekToplam ıcın tutarları topluyoruz
-
-                    odenecekLer.Add(odenecek); //odenecek nesneyi Listeye Ekledik
-                    j++; //ComboBoxa ve odenecek nesnesıne ekledık bu sayede eşleştirebileceğiz
-                }
-
-
-                sr.Close();
-
+                odenecekLer.Add(odenecek); //odenecek nesneyi Listeye Ekledik
+                j++; //ComboBoxa ve odenecek nesnesıne ekledık bu sayede eşleştirebileceğiz
             }
+
+
+            sr.Close();
+
+        }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //Ödenecek Borcu Seçme Combobox'u
         {
@@ -94,8 +91,9 @@ namespace Trafik_Cezasi_Yonetimi
             while (secilenOdeme[i] != '-') { tempstring = tempstring + secilenOdeme[i]; i++; } //Ceza noyu string olarak aldık
             int temp = Convert.ToInt32(tempstring); // cezaNo yu temp'in icine attık 
 
-           
-            if (odenecekLer[temp].odendiMi) {
+
+            if (odenecekLer[temp].odendiMi)
+            {
                 MessageBox.Show("Bu borç ödenmiş! Farklı bir borç seçiniz", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }//True ise uyar
@@ -107,12 +105,38 @@ namespace Trafik_Cezasi_Yonetimi
             //Okuma işleminde File.ReadAllLines(filePath) tüm satırları diziye atacagız, temp degiskenindeki satırdakı False degerini
             //hedef satır.Replace("false","true") degistirme metodu ile true yapıcağız.
             //File.WriteAllLines(filePath, satırlar); ile Değiştirilmiş tüm satırları geri yazICAGIZ
-            string[]satırlar=File.ReadAllLines(dosyaYol);
+            string[] satırlar = File.ReadAllLines(dosyaYol);
 
             satırlar[temp] = satırlar[temp].Replace("False", "True");
 
             File.WriteAllLines(dosyaYol, satırlar);
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)//Toplam Ceza görüntüle butonu
+        {
+            StreamReader sr = new StreamReader(dosyaYol); // Kişi Metin belgesini okuyacağız
+
+            string tempstring;
+            while ((tempstring = sr.ReadLine()) != null)
+            {
+                string[] dizi = tempstring.Split(":"); // ":" gördügünde dizinin bir elemanına attık 
+                // dizinin son elemanu=cezaTutarı ,dizinin (son-1). elemanı =ödenme durumudur
+
+                if (dizi[dizi.Length - 2] == "True") { //Ödeme durumu True ise
+                    ödenenBorc += Convert.ToInt32(dizi[dizi.Length - 1]); //Ödenen borca ekledık
+                }
+                else { //False ise(true degilse)
+                    ödenecekBorc += Convert.ToInt32(dizi[dizi.Length - 1]); //Ödenen borca ekledık
+
+                }
+                    }
+            listBox1.Items.Add("Ödenmiş olan toplam borcunuz :" + ödenenBorc+" tl");
+            listBox1.Items.Add("Ödenecek olan toplam borcunuz :" + ödenecekBorc+" tl");
+            sr.Close();
+
+
+            
         }
     }
 
