@@ -1,7 +1,7 @@
 ﻿namespace Trafik_Cezasi_Yonetimi
 {
-    //Giriþ Formu
-    //Bu formda Sürücü ve Polis giriþi için butonlar bulunmakta, hangi butona týkladýgýnda göre bilgiler isteniyor!
+    //Giriş Formu
+    //Bu sormda Sürücü ve Polis giriþi için butonlar bulunmakta, hangi butona týkladýgýnda göre bilgiler isteniyor!
     public partial class Form1 : Form
     {
         bool polis = false;
@@ -58,7 +58,7 @@
             button1.Visible = false; button2.Visible = false;
             textBox2.Visible = true; button3.Visible = true; label5.Visible = true;
             label4.Visible = true;
-            label5.Text = "Sürücü Giriþi için gerekli bilgileri giriniz!";
+            label5.Text = "Sürücü Girişi için gerekli bilgileri giriniz!";
             label4.Text = "TC kimlik no:";
         }
 

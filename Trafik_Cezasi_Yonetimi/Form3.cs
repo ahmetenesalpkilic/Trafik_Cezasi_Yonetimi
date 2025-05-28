@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 
 namespace Trafik_Cezasi_Yonetimi
 {
@@ -39,43 +41,45 @@ namespace Trafik_Cezasi_Yonetimi
 
 
 
-        private void CezaListele()
-        { //Ceza Bilgilerini listeye atıcagız!
+            private void CezaListele()
+            { //Ceza Bilgilerini listeye atıcagız!
 
-            StreamReader sr = new StreamReader(dosyaYol);
+                StreamReader sr = new StreamReader(dosyaYol);
 
-            string s;
-            int j = 0; //Ceza No'ları belirliyor
-            while ((s = sr.ReadLine()) != null) //metin belgesi null olana kadar
-            {
-                string[] temp = s.Trim().Split(':'); // iki nokta(:) gorunce ayır dızıye ata
-                IOdenecek odenecek = new IOdenecek();
+                string s;
+                int j = 0; //Ceza No'ları belirliyor
+                while ((s = sr.ReadLine()) != null) //metin belgesi null olana kadar
+                {
+                    string[] temp = s.Trim().Split(':'); // iki nokta(:) gorunce ayır dızıye ata
+                    IOdenecek odenecek = new IOdenecek();
 
-                odenecek.CezaNo = j;
-                odenecek.cezaTuru = temp[0]; odenecek.surucuTc = temp[1]; odenecek.tarih = temp[2];
-                odenecek.odendiMi = Convert.ToBoolean(temp[3]); odenecek.cezaTutar = Convert.ToInt32(temp[4]);
-                //odenecek adında bir nesne oluşturup içine atıyoruz
+                    odenecek.CezaNo = j;
+                    odenecek.cezaTuru = temp[0]; odenecek.surucuTc = temp[1]; odenecek.tarih = temp[2];
+                    odenecek.odendiMi = Convert.ToBoolean(temp[3]); odenecek.cezaTutar = Convert.ToInt32(temp[4]);
+                    //odenecek adında bir nesne oluşturup içine atıyoruz
 
-                comboBox1.Items.Add(j + "-) Ceza adı: " + temp[0] + " Tarihi: " + temp[2] + " Borç: " + temp[4]);
-                //ComboBox'a ekledik cezayı
+                    comboBox1.Items.Add(j + "-) Ceza adı: " + temp[0] + " Tarihi: " + temp[2] + " Borç: " + temp[4]);
+                    //ComboBox'a ekledik cezayı
 
 
 
-                odenecekToplam += Convert.ToInt32(temp[4]);//OdenecekToplam ıcın tutarları topluyoruz
+                    odenecekToplam += Convert.ToInt32(temp[4]);//OdenecekToplam ıcın tutarları topluyoruz
 
-                odenecekLer.Add(odenecek); //odenecek nesneyi Listeye Ekledik
-                j++; //ComboBoxa ve odenecek nesnesıne ekledık bu sayede eşleştirebileceğiz
+                    odenecekLer.Add(odenecek); //odenecek nesneyi Listeye Ekledik
+                    j++; //ComboBoxa ve odenecek nesnesıne ekledık bu sayede eşleştirebileceğiz
+                }
+
+
+                sr.Close();
+
             }
-
-
-            sr.Close();
-
-        }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //Ödenecek Borcu Seçme Combobox'u
         {
             secilenOdeme = comboBox1.SelectedItem.ToString();// Secılen Cezayı bir değişkene atadık
         }
+
+
 
         private void button1_Click(object sender, EventArgs e)//Ceza öde butonu
         {
@@ -84,31 +88,54 @@ namespace Trafik_Cezasi_Yonetimi
                 MessageBox.Show("Lütfen Ödemek İstediğiniz Bir Cezayı Seçin", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            int i = 0;
+            string tempstring = "";
 
-            int temp = Convert.ToInt32(secilenOdeme[0]); // cezaNo yu temp'in icine attık 
+            while (secilenOdeme[i] != '-') { tempstring = tempstring + secilenOdeme[i]; i++; } //Ceza noyu string olarak aldık
+            int temp = Convert.ToInt32(tempstring); // cezaNo yu temp'in icine attık 
 
+           
             if (odenecekLer[temp].odendiMi) {
                 MessageBox.Show("Bu borç ödenmiş! Farklı bir borç seçiniz", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }//True ise uyar
             odenecekLer[temp].odendiMi = true; // Eger ödenmediyse true yap
-            
+            MessageBox.Show("Borcunuz Ödenmiştir", "Bilgilendirme", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            //Borc kontrol düzelidi
+
+            //Okuma işleminde File.ReadAllLines(filePath) tüm satırları diziye atacagız, temp degiskenindeki satırdakı False degerini
+            //hedef satır.Replace("false","true") degistirme metodu ile true yapıcağız.
+            //File.WriteAllLines(filePath, satırlar); ile Değiştirilmiş tüm satırları geri yazICAGIZ
+            string[]satırlar=File.ReadAllLines(dosyaYol);
+
+            satırlar[temp] = satırlar[temp].Replace("False", "True");
+
+            File.WriteAllLines(dosyaYol, satırlar);
+
         }
     }
+
+
 
     public class IOdenecek
-        {
-            //Ceza yazılı metin belgesinde yazma sırası Türü-tc-tarih-ödenmedurumu-ÖdenecekTutar
-            public int CezaNo { get; set; }
-            public string cezaTuru { get; set; }
-            public string surucuTc { get; set; }
-            public string tarih    { get; set; }
-            public bool odendiMi { get; set; }
-            public int cezaTutar   { get; set; }
+    {
+        //Ceza yazılı metin belgesinde yazma sırası Türü-tc-tarih-ödenmedurumu-ÖdenecekTutar
+        public int CezaNo { get; set; }
+        public string cezaTuru { get; set; }
+        public string surucuTc { get; set; }
+        public string tarih { get; set; }
+        public bool odendiMi { get; set; }
+        public int cezaTutar { get; set; }
 
-            
 
-        }
 
     }
+
+
+
+
+
+
+}
 
