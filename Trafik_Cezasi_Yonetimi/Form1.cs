@@ -18,8 +18,11 @@
             InitializeComponent();
             label4.Visible = false; label3.Visible = false; label5.Visible = false;
             textBox1.Visible = false; textBox2.Visible = false; button3.Visible = false;
+            button4.Visible = false; 
             TCYklasorOlustur(); //TrafikCezaYonetımı klasoru olustur
         }
+
+
 
         private void TCYklasorOlustur()
         {
@@ -30,7 +33,7 @@
                 Directory.CreateDirectory(klasorYol);
             }
 
-             klasorRapor = Path.Combine(klasorYol, raporklasor); //Rapor adlı klasör TCY klasöründe yoksa olustur
+            klasorRapor = Path.Combine(klasorYol, raporklasor); //Rapor adlı klasör TCY klasöründe yoksa olustur
             if (!Directory.Exists(klasorRapor))
             { //eger klasör yoksa olustur
                 Directory.CreateDirectory(klasorRapor);
@@ -38,30 +41,39 @@
         }
 
 
+
+
         private void button1_Click(object sender, EventArgs e)// Polis Butonu
         {
-            button1.Visible = false; button2.Visible = false;
+            label4.Text = "Sifre:"; label4.Visible = true;
             polis = true;
-            label4.Visible = true; label3.Visible = true;
-            textBox1.Visible = true; textBox2.Visible = true; button3.Visible = true;
-            label5.Visible = true; //butonlarý aktif ediyorum
+            button1.Visible = false; button2.Visible = false;
+            button4.Visible = true; //Geri al butonu aktiflestirildi
+            label3.Visible = true;
+            textBox1.Visible = true; textBox2.Visible = true; button3.Visible = true;// butonlari  aktif ediyorum
+            label2.Visible = false; //surucu  label
+            label5.Text = "Polis Girisi icin gerekli bilgileri giriniz.";
+            label5.Visible = true; //polis label
 
-            textBox2.UseSystemPasswordChar = true; //textboxa þifre gizliliði(*****)
-
-
-
+            textBox2.UseSystemPasswordChar = true; //textboxa sifre  gizliligi(*****)
         }
+
+
 
 
         private void button2_Click(object sender, EventArgs e)// Sürücü butonu
         {
             sürücü = true;
             button1.Visible = false; button2.Visible = false;
+            button4.Visible = true; //Geri al butonu aktiflestirildi
             textBox2.Visible = true; button3.Visible = true; label5.Visible = true;
             label4.Visible = true;
-            label5.Text = "Sürücü Girişi için gerekli bilgileri giriniz!";
+            label5.Text = "Sürücü Girisi icin gerekli bilgileri giriniz!";
             label4.Text = "TC kimlik no:";
         }
+
+
+
 
         private void button3_Click(object sender, EventArgs e)//Onayla butonu
         {
@@ -89,20 +101,31 @@
                 if (!File.Exists(surucuDyol))//girdiği tc'ye ait metin belgesi yoksa message box donder
                 {
                     MessageBox.Show("Girdiğiniz Tc Kimlik no'ya ait bir ceza gecmisi bulunamadi", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                     return;
                 }
-                
-
                 Form3 f3 = new Form3(textBox2.Text.Trim());
                 this.Hide();
                 f3.ShowDialog();
                 this.Close();
             }
-
-
         }
 
 
+
+
+        private void button4_Click(object sender, EventArgs e)// Geri butonu
+        {   sürücü= false; polis = false;
+            label2.Visible = true; //Buton seciniz label
+            label4.Visible = false; label3.Visible = false; label5.Visible = false; 
+            textBox1.Visible = false; textBox2.Visible = false; 
+            button4.Visible = false; button3.Visible = false;
+            textBox2.UseSystemPasswordChar = false;
+
+            button1.Visible = true;
+            button2.Visible = true;
+            //Surucu butonu ve Polis butonu aktif
+
+        }
     }
 }

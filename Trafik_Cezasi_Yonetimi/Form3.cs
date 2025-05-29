@@ -58,7 +58,7 @@ namespace Trafik_Cezasi_Yonetimi
                 odenecek.CezaNo = j;
                 odenecek.cezaTuru = temp[0]; odenecek.surucuTc = temp[1]; odenecek.tarih = temp[2];
                 odenecek.odendiMi = Convert.ToBoolean(temp[3]); odenecek.cezaTutar = Convert.ToInt32(temp[4]);
-               
+
                 comboBox1.Items.Add(j + "-) Ceza adı: " + temp[0] + " Tarihi: " + temp[2] + " Borç: " + temp[4]);
                 //ComboBox'a ekledik cezayı
 
@@ -123,20 +123,30 @@ namespace Trafik_Cezasi_Yonetimi
                 string[] dizi = tempstring.Split(":"); // ":" gördügünde dizinin bir elemanına attık 
                 // dizinin son elemanu=cezaTutarı ,dizinin (son-1). elemanı =ödenme durumudur
 
-                if (dizi[dizi.Length - 2] == "True") { //Ödeme durumu True ise
+                if (dizi[dizi.Length - 2] == "True")
+                { //Ödeme durumu True ise
                     ödenenBorc += Convert.ToInt32(dizi[dizi.Length - 1]); //Ödenen borca ekledık
                 }
-                else { //False ise(true degilse)
+                else
+                { //False ise(true degilse)
                     ödenecekBorc += Convert.ToInt32(dizi[dizi.Length - 1]); //Ödenen borca ekledık
 
                 }
-                    }
-            listBox1.Items.Add("Ödenmiş olan toplam borcunuz :" + ödenenBorc+" tl");
-            listBox1.Items.Add("Ödenecek olan toplam borcunuz :" + ödenecekBorc+" tl");
+            }
+            listBox1.Items.Add("Ödenmiş olan toplam borcunuz :" + ödenenBorc + " tl");
+            listBox1.Items.Add("Ödenecek olan toplam borcunuz :" + ödenecekBorc + " tl");
             sr.Close();
 
 
-            
+
+        }
+
+        private void button4_Click(object sender, EventArgs e) //Geri butonu
+        {
+            Form1 f1 = new Form1();
+            this.Hide();
+            f1.ShowDialog();
+            this.Close();
         }
     }
 
@@ -149,7 +159,7 @@ namespace Trafik_Cezasi_Yonetimi
         public string cezaTuru { get; set; }
         public string surucuTc { get; set; }
         public string tarih { get; set; }
-        public bool odendiMi { get; set; }
+        public bool odendiMi { get; set; }  
         public int cezaTutar { get; set; }
 
 

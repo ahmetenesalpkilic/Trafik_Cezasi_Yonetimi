@@ -35,13 +35,14 @@
             listBox1 = new ListBox();
             button2 = new Button();
             label2 = new Label();
+            button4 = new Button();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 36F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            label1.Location = new Point(250, 74);
+            label1.Location = new Point(235, 67);
             label1.Name = "label1";
             label1.RightToLeft = RightToLeft.Yes;
             label1.Size = new Size(523, 67);
@@ -50,7 +51,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(644, 207);
+            button1.Location = new Point(629, 207);
             button1.Name = "button1";
             button1.Size = new Size(177, 29);
             button1.TabIndex = 3;
@@ -62,7 +63,7 @@
             // 
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(103, 208);
+            comboBox1.Location = new Point(88, 208);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(453, 28);
             comboBox1.TabIndex = 4;
@@ -73,7 +74,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label5.ForeColor = SystemColors.ControlDarkDark;
-            label5.Location = new Point(331, 163);
+            label5.Location = new Point(316, 163);
             label5.Name = "label5";
             label5.Size = new Size(304, 23);
             label5.TabIndex = 11;
@@ -82,14 +83,14 @@
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(583, 416);
+            listBox1.Location = new Point(568, 416);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(326, 144);
             listBox1.TabIndex = 12;
             // 
             // button2
             // 
-            button2.Location = new Point(220, 464);
+            button2.Location = new Point(205, 464);
             button2.Name = "button2";
             button2.Size = new Size(177, 29);
             button2.TabIndex = 13;
@@ -102,17 +103,28 @@
             label2.AutoSize = true;
             label2.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label2.ForeColor = SystemColors.ControlDarkDark;
-            label2.Location = new Point(331, 346);
+            label2.Location = new Point(316, 346);
             label2.Name = "label2";
             label2.Size = new Size(324, 46);
             label2.TabIndex = 14;
             label2.Text = "Toplam Ceza Miktarını Görmek için \r\n     görüntüle butonuna tıklayın!";
             // 
+            // button4
+            // 
+            button4.Location = new Point(21, 24);
+            button4.Name = "button4";
+            button4.Size = new Size(148, 30);
+            button4.TabIndex = 15;
+            button4.Text = "Geri ";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1033, 666);
+            ClientSize = new Size(1006, 673);
+            Controls.Add(button4);
             Controls.Add(label2);
             Controls.Add(button2);
             Controls.Add(listBox1);
@@ -136,5 +148,6 @@
         private ListBox listBox1;
         private Button button2;
         private Label label2;
+        private Button button4;
     }
 }

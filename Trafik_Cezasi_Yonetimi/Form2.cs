@@ -23,7 +23,7 @@ namespace Trafik_Cezasi_Yonetimi
         {
             InitializeComponent();
             comboBox1.Items.Add("Park"); comboBox1.Items.Add("Hız"); comboBox1.Items.Add("Kırmızı");
-            
+
         }
 
 
@@ -40,7 +40,7 @@ namespace Trafik_Cezasi_Yonetimi
         }
 
 
-       
+
 
         private void kisiBelgeOlustur(string Tc, Ceza ceza) //Kişiye belge olusturur
         {
@@ -188,6 +188,17 @@ namespace Trafik_Cezasi_Yonetimi
             sr.Close();
 
             //sadece tc gırdııgnde eger yoksa rapor bulunamadı demesı gerekırken uygulama cokuyo onu duzlet
+
+        }
+
+
+            
+        private void button4_Click(object sender, EventArgs e) // Geri Butonu
+        {
+            Form1 f1 = new Form1();
+            this.Hide();
+            f1.ShowDialog();
+            this.Close();
 
         }
     }
