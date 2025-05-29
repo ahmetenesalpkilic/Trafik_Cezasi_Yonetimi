@@ -1,48 +1,72 @@
-# 🚨 Basit Trafik Cezası Yönetimi Sistemi
+🚨 Basit Trafik Cezası Yönetimi Sistemi
+📌 Proje Amacı
+Bu uygulama, sürücülere kesilen trafik cezalarının kayıt altına alınması, görüntülenmesi ve raporlanmasını sağlayan basit bir trafik cezası yönetimi sistemidir. Uygulama, nesne yönelimli programlama (OOP) ilkeleri kullanılarak Windows Forms (WinForms) arayüzü ile geliştirilmiştir.
 
-## 📌 Proje Amacı
+🔧 Kullanılan Teknolojiler
+C#
 
-Bu uygulama, sürücülere kesilen trafik cezalarının eklenmesi, ödenmesi ve takibinin yapılmasını sağlayan basit bir ceza yönetimi sistemidir. Uygulama, nesne yönelimli programlama (OOP) prensiplerine göre geliştirilmiştir.
+Windows Forms (WinForms)
 
----
+.NET Framework
 
-## 🔧 Kullanılan Teknolojiler
+System.IO (Dosya işlemleri için)
 
-- **C#**
-- **Windows Forms (WinForms)**
-- **.NET Framework**
-  
+🧱 OOP Yapısı
+🏷️ Sınıflar
+Ceza (Abstract Class)
 
----
+Ceza ID, Tutar, Tarih gibi ortak özellikleri içerir.
 
-## 🧱 OOP Yapısı
+IOdenecek arayüzünü uygular.
 
-### 🏷️ Sınıflar
+HızCeza, ParkCeza, IsikCeza
 
-- **Ceza (Abstract Base Class)**
-  - Ortak özellikleri ve `IOdenecek` arayüzünü içerir.
-- **Hız, Park, KırmızıIşık** (Ceza'dan kalıtım alır)
-  - Ceza türlerine göre özelleştirilmiş sınıflar.
-- **Sürücü**
-  - TC Kimlik, Ad Soyad gibi bilgileri tutar.
-- **Polis**
-  - Ceza ekleme işlemleri için kullanılır.
+Ceza sınıfından türeyen ceza türleri.
 
-### 💬 Arayüz
+Her biri farklı ceza türünü temsil eder.
 
-- `IOdenecek`
-  
+Surucu
 
----
+TC Kimlik No, Ad, Soyad gibi bilgiler içerir.
 
-## 🧪 Modüller ve Özellikler
+Kendi cezalarını tutar ve ödeme işlemlerini yapabilir.
 
-- [x] Giriş ekranı (Kullanıcı türü seçimi: Sürücü / Polis)
-- [x] Ceza ekleme (Polis paneli üzerinden)
-- [x] Ceza ödeme (Sürücü paneli üzerinden)
-- [x] Toplam borç görüntüleme
-- [x] Ceza raporlama 
-- [x] Ceza silme (opsiyonel)
+Polis
 
----
+TC Kimlik No, Sicil No gibi bilgiler içerir.
 
+Ceza ekleme ve ceza raporlama işlemlerini yapar.
+
+CezaYonetimi
+
+Ceza listesini tutar, cezaları dosyaya kaydeder ve raporlama yapar.
+
+💬 Arayüz
+IOdenecek
+
+double TutarHesapla(); metodunu içerir.
+
+Tüm ceza türlerinde ödeme tutarının hesaplanmasını sağlar.
+
+🧪 Modüller ve Özellikler
+ Giriş ekranı (Kullanıcı türü seçimi: Sürücü / Polis)
+
+ Sürücü girişi (TC Kimlik ve ad bilgisiyle)
+
+ Polis girişi (Sicil No ile)
+
+ Ceza ekleme (Polis paneli üzerinden)
+
+ Ceza listeleme (Tüm cezalar)
+
+ Ceza ödeme (Sürücü panelinden)
+
+ Ceza silme (Seçilen cezayı kaldırma)
+
+ Ceza raporlama (Dosyaya yazdırma)
+
+ Veri kalıcılığı (cezalar.txt dosyası ile)
+
+ OOP prensiplerine tam uygunluk
+
+📂 Dosya Yapısı
