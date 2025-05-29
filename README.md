@@ -1,72 +1,86 @@
-🚨 Basit Trafik Cezası Yönetimi Sistemi
-📌 Proje Amacı
+# 🚨 Basit Trafik Cezası Yönetimi Sistemi
+
+## 📌 Proje Amacı
+
 Bu uygulama, sürücülere kesilen trafik cezalarının kayıt altına alınması, görüntülenmesi ve raporlanmasını sağlayan basit bir trafik cezası yönetimi sistemidir. Uygulama, nesne yönelimli programlama (OOP) ilkeleri kullanılarak Windows Forms (WinForms) arayüzü ile geliştirilmiştir.
 
-🔧 Kullanılan Teknolojiler
-C#
+---
 
-Windows Forms (WinForms)
+## 🔧 Kullanılan Teknolojiler
 
-.NET Framework
+- **C#**
+- **Windows Forms (WinForms)**
+- **.NET Framework**
+- **System.IO** (Dosya işlemleri için)
 
-System.IO (Dosya işlemleri için)
+---
 
-🧱 OOP Yapısı
-🏷️ Sınıflar
-Ceza (Abstract Class)
+## 🧱 OOP Yapısı
 
-Ceza ID, Tutar, Tarih gibi ortak özellikleri içerir.
+### 🏷️ Sınıflar
 
-IOdenecek arayüzünü uygular.
+- **Ceza (Abstract Class)**  
+  - Ceza ID, Tutar, Tarih gibi ortak özellikleri içerir.  
+  - `IOdenecek` arayüzünü uygular.
 
-HızCeza, ParkCeza, IsikCeza
+- **HizCeza, ParkCeza, IsikCeza**  
+  - `Ceza` sınıfından türeyen ceza türleri.  
+  - Her biri farklı ceza türünü temsil eder.
 
-Ceza sınıfından türeyen ceza türleri.
+- **Surucu**  
+  - TC Kimlik No, Ad, Soyad gibi bilgiler içerir.  
+  - Kendi cezalarını tutar ve ödeme işlemlerini yapabilir.
 
-Her biri farklı ceza türünü temsil eder.
+- **Polis**  
+  - TC Kimlik No, Sicil No gibi bilgiler içerir.  
+  - Ceza ekleme ve ceza raporlama işlemlerini yapar.
 
-Surucu
+- **CezaYonetimi**  
+  - Ceza listesini tutar, cezaları dosyaya kaydeder ve raporlama yapar.
 
-TC Kimlik No, Ad, Soyad gibi bilgiler içerir.
+---
 
-Kendi cezalarını tutar ve ödeme işlemlerini yapabilir.
+### 💬 Arayüz
 
-Polis
+- `IOdenecek`  
+  - `double TutarHesapla();` metodunu içerir.  
+  - Tüm ceza türlerinde ödeme tutarının hesaplanmasını sağlar.
 
-TC Kimlik No, Sicil No gibi bilgiler içerir.
+---
 
-Ceza ekleme ve ceza raporlama işlemlerini yapar.
+## 🧪 Modüller ve Özellikler
 
-CezaYonetimi
+- [x] Giriş ekranı (Kullanıcı türü seçimi: Sürücü / Polis)
+- [x] Sürücü girişi (TC Kimlik ve ad bilgisiyle)
+- [x] Polis girişi (Sicil No ile)
+- [x] Ceza ekleme (Polis paneli üzerinden)
+- [x] Ceza listeleme (Tüm cezalar)
+- [x] Ceza ödeme (Sürücü panelinden)
+- [x] Ceza silme (Seçilen cezayı kaldırma)
+- [x] Ceza raporlama (Dosyaya yazdırma)
+- [x] Veri kalıcılığı (cezalar.txt dosyası ile)
+- [x] OOP prensiplerine tam uygunluk
 
-Ceza listesini tutar, cezaları dosyaya kaydeder ve raporlama yapar.
+---
 
-💬 Arayüz
-IOdenecek
+## 📂 Dosya Yapısı
 
-double TutarHesapla(); metodunu içerir.
+- `Ceza.cs`  
+- `HizCeza.cs`, `ParkCeza.cs`, `IsikCeza.cs`  
+- `Surucu.cs`  
+- `Polis.cs`  
+- `CezaYonetimi.cs`  
+- `Form1.cs` (Giriş Formu)  
+- `PolisForm.cs`  
+- `SurucuForm.cs`
 
-Tüm ceza türlerinde ödeme tutarının hesaplanmasını sağlar.
+---
 
-🧪 Modüller ve Özellikler
- Giriş ekranı (Kullanıcı türü seçimi: Sürücü / Polis)
+## 🚀 Nasıl Çalıştırılır?
 
- Sürücü girişi (TC Kimlik ve ad bilgisiyle)
+1. Projeyi Visual Studio ile aç.
+2. Gerekli NuGet paketleri otomatik yüklenecektir.
+3. `Form1.cs`'i başlangıç formu olarak ayarla.
+4. Derle (F5) ve çalıştır.
 
- Polis girişi (Sicil No ile)
-
- Ceza ekleme (Polis paneli üzerinden)
-
- Ceza listeleme (Tüm cezalar)
-
- Ceza ödeme (Sürücü panelinden)
-
- Ceza silme (Seçilen cezayı kaldırma)
-
- Ceza raporlama (Dosyaya yazdırma)
-
- Veri kalıcılığı (cezalar.txt dosyası ile)
-
- OOP prensiplerine tam uygunluk
-
-📂 Dosya Yapısı
+---
