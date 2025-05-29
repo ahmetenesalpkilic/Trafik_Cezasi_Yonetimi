@@ -11,7 +11,7 @@ Bu uygulama, sürücülere kesilen trafik cezalarının eklenmesi, ödenmesi ve 
 - **C#**
 - **Windows Forms (WinForms)**
 - **.NET Framework**
-- **LINQ**
+  
 
 ---
 
@@ -31,7 +31,7 @@ Bu uygulama, sürücülere kesilen trafik cezalarının eklenmesi, ödenmesi ve 
 ### 💬 Arayüz
 
 - `IOdenecek`
-  - `void Ode();` metodunu içerir.
+  
 
 ---
 
@@ -41,19 +41,8 @@ Bu uygulama, sürücülere kesilen trafik cezalarının eklenmesi, ödenmesi ve 
 - [x] Ceza ekleme (Polis paneli üzerinden)
 - [x] Ceza ödeme (Sürücü paneli üzerinden)
 - [x] Toplam borç görüntüleme
-- [x] Ceza raporlama (LINQ ile filtreleme)
+- [x] Ceza raporlama 
 - [x] Ceza silme (opsiyonel)
 
 ---
 
-## 🔍 LINQ ile Filtreleme
-
-```csharp
-// TC'ye göre kişinin tüm cezalarını al
-var cezalar = tumCezalar.Where(c => c.TC == "12345678900").ToList();
-
-// Sadece ödenmemiş olanları al
-var odenmemisler = cezalar.Where(c => !c.OdendiMi).ToList();
-
-// Toplam borcu hesapla
-int toplamBorc = odenmemisler.Sum(c => c.Tutar);
