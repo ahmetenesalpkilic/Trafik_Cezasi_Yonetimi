@@ -43,8 +43,8 @@ Bu uygulama, sürücülere kesilen trafik cezalarının kayıt altına alınmas�
 ### 💬 Arayüz
 
 - `IOdenecek`  
-  - `double TutarHesapla();` metodunu içerir.  
-  - Tüm ceza türlerinde ödeme tutarının hesaplanmasını sağlar.
+  - CezaNo,cezaTuru,surucuTc,tarih,odendiMi,cezaTutar adında değişkenler içerir
+  
 
 ---
 
