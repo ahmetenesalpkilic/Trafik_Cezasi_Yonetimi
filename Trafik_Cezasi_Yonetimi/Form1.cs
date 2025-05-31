@@ -16,10 +16,14 @@
         public Form1()
         {
             InitializeComponent();
+            TumLabellariSaydamYap(this);
             label4.Visible = false; label3.Visible = false; label5.Visible = false;
             textBox1.Visible = false; textBox2.Visible = false; button3.Visible = false;
-            button4.Visible = false; 
+            button4.Visible = false;
+
             TCYklasorOlustur(); //TrafikCezaYonetımı klasoru olustur
+
+
         }
 
 
@@ -111,14 +115,29 @@
             }
         }
 
+        private void TumLabellariSaydamYap(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                if (c is Label)
+                {
+                    c.BackColor = Color.Transparent;
+                }
+                else if (c.HasChildren)
+                {
+                    TumLabellariSaydamYap(c); // İç içe kontroller varsa onlara da uygula
+                }
+            }
+        }
 
 
 
         private void button4_Click(object sender, EventArgs e)// Geri butonu
-        {   sürücü= false; polis = false;
+        {
+            sürücü = false; polis = false;
             label2.Visible = true; //Buton seciniz label
-            label4.Visible = false; label3.Visible = false; label5.Visible = false; 
-            textBox1.Visible = false; textBox2.Visible = false; 
+            label4.Visible = false; label3.Visible = false; label5.Visible = false;
+            textBox1.Visible = false; textBox2.Visible = false;
             button4.Visible = false; button3.Visible = false;
             textBox2.UseSystemPasswordChar = false;
 
@@ -126,6 +145,16 @@
             button2.Visible = true;
             //Surucu butonu ve Polis butonu aktif
 
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e) // Saydamlastırma
+        {
+            panel1.BackColor = Color.FromArgb(170, Color.Black); // 170 saydamlık değeri 
+        }
+
+        private void label6_Click(object sender, EventArgs e) // kapatma labeli X
+        {
+            this.Close();
         }
     }
 }

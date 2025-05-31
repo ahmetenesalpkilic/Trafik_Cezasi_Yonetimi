@@ -23,10 +23,24 @@ namespace Trafik_Cezasi_Yonetimi
         {
             InitializeComponent();
             comboBox1.Items.Add("Park"); comboBox1.Items.Add("Hız"); comboBox1.Items.Add("Kırmızı");
+            TumLabellariSaydamYap(this);
 
         }
 
-
+        private void TumLabellariSaydamYap(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                if (c is Label)
+                {
+                    c.BackColor = Color.Transparent;
+                }
+                else if (c.HasChildren)
+                {
+                    TumLabellariSaydamYap(c); // İç içe kontroller varsa onlara da uygula
+                }
+            }
+        }
 
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -192,7 +206,7 @@ namespace Trafik_Cezasi_Yonetimi
         }
 
 
-            
+
         private void button4_Click(object sender, EventArgs e) // Geri Butonu
         {
             Form1 f1 = new Form1();
@@ -200,6 +214,16 @@ namespace Trafik_Cezasi_Yonetimi
             f1.ShowDialog();
             this.Close();
 
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            panel1.BackColor = Color.FromArgb(170, Color.Black); // 170 saydamlık değeri 
+        }
+
+        private void label6_Click(object sender, EventArgs e) // kapatma labeli X
+        {
+            this.Close();
         }
     }
 }

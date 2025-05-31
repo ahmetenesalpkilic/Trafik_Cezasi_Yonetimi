@@ -34,11 +34,27 @@ namespace Trafik_Cezasi_Yonetimi
 
             dosyaYol = Path.Combine(masaUstuYol, "Trafik_Ceza_Yönetimi", sürücütc + ".txt"); //TCY klasöründe kişinin metin belgesine ulaşıyoruz
             CezaListele();
+            TumLabellariSaydamYap(this);
         }
 
         private void Form3_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void TumLabellariSaydamYap(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                if (c is Label)
+                {
+                    c.BackColor = Color.Transparent;
+                }
+                else if (c.HasChildren)
+                {
+                    TumLabellariSaydamYap(c); // İç içe kontroller varsa onlara da uygula
+                }
+            }
         }
 
 
@@ -147,6 +163,16 @@ namespace Trafik_Cezasi_Yonetimi
             this.Hide();
             f1.ShowDialog();
             this.Close();
+        }
+
+        private void label6_Click(object sender, EventArgs e) // kapatma labeli X
+        {
+            this.Close();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e) //saydam azaltma
+        {
+            panel1.BackColor = Color.FromArgb(170, Color.Black); // 170 saydamlık değeri 
         }
     }
 
