@@ -161,7 +161,8 @@
             // 
             // panel1
             // 
-            panel1.BackColor = SystemColors.ActiveCaptionText;
+            panel1.BackColor = Color.Transparent;
+            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(button3);
@@ -176,7 +177,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(837, 542);
             panel1.TabIndex = 12;
-            panel1.Paint += panel1_Paint;
             // 
             // button4
             // 
@@ -210,9 +210,9 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1006, 673);
             Controls.Add(label6);
-            Controls.Add(panel1);
             Controls.Add(button4);
             Controls.Add(checkedListBox1);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;

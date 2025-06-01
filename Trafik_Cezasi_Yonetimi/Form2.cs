@@ -25,6 +25,7 @@ namespace Trafik_Cezasi_Yonetimi
             comboBox1.Items.Add("Park"); comboBox1.Items.Add("Hız"); comboBox1.Items.Add("Kırmızı");
             TumLabellariSaydamYap(this);
 
+
         }
 
         private void TumLabellariSaydamYap(Control parent)

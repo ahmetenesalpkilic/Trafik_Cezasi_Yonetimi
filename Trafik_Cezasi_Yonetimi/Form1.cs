@@ -17,9 +17,13 @@
         {
             InitializeComponent();
             TumLabellariSaydamYap(this);
+
             label4.Visible = false; label3.Visible = false; label5.Visible = false;
             textBox1.Visible = false; textBox2.Visible = false; button3.Visible = false;
             button4.Visible = false;
+
+   
+
 
             TCYklasorOlustur(); //TrafikCezaYonetımı klasoru olustur
 
@@ -44,6 +48,61 @@
             }
         }
 
+
+
+        bool HepsiSayiMi(string veri) //string sayı mı kontrol
+        {
+            return veri.All(char.IsDigit);
+        }
+
+
+        bool tcKontrol(string tcNo) // TC 'yi gercekten kontrol edıyoruz
+        {
+            int[] tcDizi = tcNo.Select(c => int.Parse(c.ToString())).ToArray(); //Lınq mantıgı ıle cekıyorum
+
+            if (tcDizi.Length != 11)
+            {
+                MessageBox.Show("Girdiğiniz TC no 11 haneli değil ", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (tcDizi[0] == 0) {
+                MessageBox.Show("Girdiğiniz TC no 0 ile başlayamaz", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+
+
+            int tekTop = 0, ciftTop = 0; // dizi 0 dan basladıgı ıcın tekToplam dızıdekı cıflerı cıfTop dizideki tek indislilerii toplayacak
+
+            for(int i = 0; i < 9; i++)
+            {
+                if (i % 2 == 0){tekTop += tcDizi[i]; }
+
+                else { ciftTop += tcDizi[i]; }
+            }
+
+            int onuncuHane = ((tekTop * 7) - ciftTop) % 10;
+            if (onuncuHane < 0) onuncuHane += 10;
+
+            if (tcDizi[9] != onuncuHane)
+            {
+                MessageBox.Show("Girdiğiniz TC no geçerli değil (10. hane hatalı).", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            int onhaneToplam = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                onhaneToplam += tcDizi[i]; //ilk 10 haneyi topluyoruz
+            }
+
+            if (tcDizi[10] != onhaneToplam % 10)
+            {
+                MessageBox.Show("Girdiğiniz TC no geçerli değil (11. hane hatalı).", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+
+        }
 
 
 
@@ -79,7 +138,7 @@
 
 
 
-        private void button3_Click(object sender, EventArgs e)//Onayla butonu
+        private void button3_Click(object sender, EventArgs e)//Onayla butonu 
         {
             if (polis) // polis butonuna tiklandiysa eger
             {
@@ -97,18 +156,35 @@
                     return;
                 }
             }
-
+            //---------------------------
 
             if (sürücü) // sürücü butonuna tiklandiysa eger
             {
+
                 string surucuDyol = Path.Combine(klasorYol, textBox2.Text + ".txt");
+                string tcKimlik = textBox2.Text.Trim();
+
+                if (!HepsiSayiMi(tcKimlik))
+                {
+                    MessageBox.Show("Girdiğiniz TC no sadece sayılardan oluşmalı!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!tcKontrol(tcKimlik))
+                {
+                    return; // Eğer TC hatalıysa buradan çık
+                }
+
+
                 if (!File.Exists(surucuDyol))//girdiği tc'ye ait metin belgesi yoksa message box donder
                 {
                     MessageBox.Show("Girdiğiniz Tc Kimlik no'ya ait bir ceza gecmisi bulunamadi", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     return;
                 }
-                Form3 f3 = new Form3(textBox2.Text.Trim());
+
+              
+                Form3 f3 = new Form3(tcKimlik);
                 this.Hide();
                 f3.ShowDialog();
                 this.Close();
@@ -147,14 +223,23 @@
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e) // Saydamlastırma
-        {
-            panel1.BackColor = Color.FromArgb(170, Color.Black); // 170 saydamlık değeri 
-        }
-
+       
+       
         private void label6_Click(object sender, EventArgs e) // kapatma labeli X
         {
             this.Close();
+        }
+    }
+    public class TransparentPanel : Panel //Panelın bozulmalarını engellemek ıcın
+    {
+        public TransparentPanel()
+        {
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor |
+                          ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.UserPaint, true);
+
+            this.BackColor = Color.Transparent;
         }
     }
 }
