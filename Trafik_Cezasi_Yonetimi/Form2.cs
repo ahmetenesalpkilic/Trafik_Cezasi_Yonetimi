@@ -55,6 +55,55 @@ namespace Trafik_Cezasi_Yonetimi
         }
 
 
+        bool tcKontrol(string tcNo) // TC 'yi gercekten kontrol edıyoruz
+        {
+            int[] tcDizi = tcNo.Select(c => int.Parse(c.ToString())).ToArray(); //Lınq mantıgı ıle cekıyorum
+
+            if (tcDizi.Length != 11)
+            {
+                MessageBox.Show("Girdiğiniz TC no 11 haneli değil ", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (tcDizi[0] == 0)
+            {
+                MessageBox.Show("Girdiğiniz TC no 0 ile başlayamaz", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+
+
+            int tekTop = 0, ciftTop = 0; // dizi 0 dan basladıgı ıcın tekToplam dızıdekı cıflerı cıfTop dizideki tek indislilerii toplayacak
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (i % 2 == 0) { tekTop += tcDizi[i]; }
+
+                else { ciftTop += tcDizi[i]; }
+            }
+
+            int onuncuHane = ((tekTop * 7) - ciftTop) % 10;
+            if (onuncuHane < 0) onuncuHane += 10;
+
+            if (tcDizi[9] != onuncuHane)
+            {
+                MessageBox.Show("Girdiğiniz TC no geçerli değil (10. hane hatalı).", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            int onhaneToplam = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                onhaneToplam += tcDizi[i]; //ilk 10 haneyi topluyoruz
+            }
+
+            if (tcDizi[10] != onhaneToplam % 10)
+            {
+                MessageBox.Show("Girdiğiniz TC no geçerli değil (11. hane hatalı).", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+
+        }
+
 
 
         private void kisiBelgeOlustur(string Tc, Ceza ceza) //Kişiye belge olusturur
@@ -134,10 +183,16 @@ namespace Trafik_Cezasi_Yonetimi
                 MessageBox.Show("Lütfen Sürücü TC no girin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             if (textBox1.Text.Length != 11 || !HepsiSayiMi(textBox1.Text))
             {
                 MessageBox.Show("Lütfen yalnızca rakamlardan oluşan 11 haneli bir değer girin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+
+            if (!tcKontrol(textBox1.Text))
+            {
+                return; // tc hatalıysa buradan çık
             }
 
 
@@ -198,7 +253,7 @@ namespace Trafik_Cezasi_Yonetimi
 
             }
             sw.WriteLine("--------------------------------------------------------");
-            MessageBox.Show("Rapor başarılı şekilde oluşturuldu", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Rapor başarılı şekilde Masaüstü/Trafik_Ceza_Yönetimi/Rapor_Klasor Klasöründe oluşturuldu", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             sw.Close();
             sr.Close();
 

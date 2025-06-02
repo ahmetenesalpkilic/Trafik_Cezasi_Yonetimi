@@ -214,6 +214,7 @@
             label2.Visible = true; //Buton seciniz label
             label4.Visible = false; label3.Visible = false; label5.Visible = false;
             textBox1.Visible = false; textBox2.Visible = false;
+            textBox1.Clear(); textBox2.Clear();     // TextBox Temizlendi
             button4.Visible = false; button3.Visible = false;
             textBox2.UseSystemPasswordChar = false;
 
