@@ -59,6 +59,8 @@ namespace Trafik_Cezasi_Yonetimi
 
 
 
+
+        
         private void CezaListele()
         { //Ceza Bilgilerini listeye atıcagız!
 
@@ -86,6 +88,8 @@ namespace Trafik_Cezasi_Yonetimi
             sr.Close();
 
         }
+        
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //Ödenecek Borcu Seçme Combobox'u
         {
@@ -131,27 +135,21 @@ namespace Trafik_Cezasi_Yonetimi
 
         private void button2_Click(object sender, EventArgs e)//Toplam Ceza görüntüle butonu
         {
-            StreamReader sr = new StreamReader(dosyaYol); // Kişi Metin belgesini okuyacağız
+            var odenenList = odenecekLer.Where(odenecekLer => odenecekLer.odendiMi).ToList(); ; //Odenen cezaları listeliyor
+            var odenmeyenList = odenecekLer.Where(o => !o.odendiMi).ToList();//Odenmeyen cezaları listeliyor
+            ödenecekBorc = 0; ödenenBorc = 0;
+            for (int i = 0; i < odenenList.Count; i++)
+           { ödenenBorc += Convert.ToInt32(odenenList[i].cezaTutar);}
 
-            string tempstring;
-            while ((tempstring = sr.ReadLine()) != null)
-            {
-                string[] dizi = tempstring.Split(":"); // ":" gördügünde dizinin bir elemanına attık 
-                // dizinin son elemanu=cezaTutarı ,dizinin (son-1). elemanı =ödenme durumudur
+            for (int i = 0; i < odenmeyenList.Count; i++)
+            { ödenecekBorc += Convert.ToInt32(odenmeyenList[i].cezaTutar); }
 
-                if (dizi[dizi.Length - 2] == "True")
-                { //Ödeme durumu True ise
-                    ödenenBorc += Convert.ToInt32(dizi[dizi.Length - 1]); //Ödenen borca ekledık
-                }
-                else
-                { //False ise(true degilse)
-                    ödenecekBorc += Convert.ToInt32(dizi[dizi.Length - 1]); //Ödenen borca ekledık
 
-                }
-            }
+            listBox1.Items.Clear(); //Oncekı eklenen itemleri kaldiriyoruz
+
             listBox1.Items.Add("Ödenmiş olan toplam borcunuz :" + ödenenBorc + " tl");
             listBox1.Items.Add("Ödenecek olan toplam borcunuz :" + ödenecekBorc + " tl");
-            sr.Close();
+            
 
 
 
